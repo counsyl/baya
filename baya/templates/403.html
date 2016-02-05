@@ -1,0 +1,6 @@
+<h1>403 Forbidden</h1>
+
+{% if request.baya_requires %}
+  <h3>Permissions required</h3>
+  <p>Users who attempt to perform a {{ request.method }} request for this resource require satisfying the following group conditions: <b>{{ request.baya_requires.requires_groups_str }}</b>.  The current user, {{ request.user }}, is a member of the following groups: <b>{{ request.baya_requires.user_groups_str }}</b>.</p>
+{% endif %}

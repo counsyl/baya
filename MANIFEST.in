@@ -1,0 +1,6 @@
+include README.md
+include requirements*.txt
+
+prune baya/tests
+prune testsite
+global-exclude *.pyc .DS_Store
