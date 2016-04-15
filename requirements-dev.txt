@@ -7,4 +7,3 @@ mockldap==0.2.0  # Required for mock_ldap_helpers
 nose==1.3.6
 pep8==1.5.7
 pyflakes==0.8.1
-ipdb
