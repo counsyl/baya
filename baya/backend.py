@@ -13,6 +13,8 @@ class NestedLDAPGroupsBackend(LDAPBackend):
 
         <permission> is something like add_mymodel or change_mymodel.
         """
+        if hasattr(user, '_baya_cached_all_permissions'):
+            return user._baya_cached_all_permissions
         permissions = super(NestedLDAPGroupsBackend, self).get_all_permissions(
             user, obj)
         from baya.admin.sites import _admin_registry
@@ -29,4 +31,5 @@ class NestedLDAPGroupsBackend(LDAPBackend):
                 if (hasattr(opts, 'user_has_delete_permission') and
                         opts.user_has_delete_permission(user)):
                     permissions.add("%s.%s" % (app, perm_name('delete')))
+        user._baya_cached_all_permissions = permissions
         return permissions
