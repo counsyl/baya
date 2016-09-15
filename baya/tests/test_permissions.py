@@ -394,7 +394,7 @@ class TestRequires(LDAPGroupAuthTestBase):
         for pattern in decorated_include[0].urlpatterns:
             [cell] = filter(
                 lambda cell: isinstance(cell.cell_contents, requires),
-                pattern.resolve.func_closure)
+                pattern.resolve.__closure__)
             requirer = cell.cell_contents
             self.assertTrue(
                 PermissionChecker(['a']).visit(requirer.gate.get_requires))

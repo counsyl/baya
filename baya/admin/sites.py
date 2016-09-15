@@ -7,6 +7,7 @@ from django.contrib.admin.sites import AdminSite
 
 from baya.permissions import requires
 from baya.membership import ValueNode
+from functools import reduce
 
 
 # Keep a registry of baya-enabled admin sites so we can properly intercept

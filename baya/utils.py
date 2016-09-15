@@ -62,7 +62,7 @@ def has_permission(fn, user, permission):
                 # Not wrapping any function, so bail out
                 return True
 
-            nested_fn = fn.func_closure[0].cell_contents
+            nested_fn = fn.__closure__[0].cell_contents
             if not _get_gate(nested_fn):
                 return True
             else:
