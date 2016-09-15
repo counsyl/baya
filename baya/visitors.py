@@ -110,7 +110,8 @@ class ExpressionWriter(NodeVisitor):
 
     def _visit_unary_node(self, operator_node, visited_operand):
         args = (operator_node.display_name, visited_operand.value)
-        if self._get_arity(visited_operand.node) > 1:
+        arity = self._get_arity(visited_operand.node)
+        if arity is not None and arity > 1:
             return '%s(%s)' % args
         return '%s%s' % args
 
