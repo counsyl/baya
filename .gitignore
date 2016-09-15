@@ -60,3 +60,4 @@ docs/_build/
 
 # Testsite database
 *.sqlite3
+.coverage.*

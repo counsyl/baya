@@ -211,7 +211,7 @@ class TestAdminIntegration(_IntegrationBase):
         # And that it's in the 403 template
         self.assertIn(
             "<b>{aaa} &amp; True | {aa} &amp; True | {aa} | {b}</b>",
-            response.content)
+            response.content.decode('utf-8'))
 
     def test_index(self):
         for url, reverse_kwargs in [

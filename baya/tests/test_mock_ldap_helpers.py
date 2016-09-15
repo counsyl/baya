@@ -61,26 +61,26 @@ class TestMockLdapDirectory(TestCase):
             ldap_dc="",
         )
         self.assertEqual(len(directory), 11)
-        self.assertTrue(group_dn('child_1', "") in directory.keys())
+        self.assertIn(group_dn('child_1', ""), directory)
         self.assertEqual(directory[group_dn('child_1', '')]['memberOf'],
                          [group_dn('child_1_1', '')])
         self.assertEqual(directory[group_dn('child_1', "")]['member'],
                          [group_dn('the_parent', '')])
-        self.assertTrue(group_dn('child_2', "") in directory.keys())
+        self.assertIn(group_dn('child_2', ""), directory)
         self.assertEqual(
             directory[group_dn('child_2', '')]['memberOf'],
             [group_dn('child_2_1', ''), group_dn('child_2_2', '')])
         self.assertEqual(directory[group_dn('child_2', "")]['member'],
                          [group_dn('the_parent', '')])
-        self.assertTrue(group_dn('child_1_1', "") in directory.keys())
+        self.assertIn(group_dn('child_1_1', ""), directory)
         self.assertEqual(directory[group_dn('child_1_1', "")]['memberOf'], [])
         self.assertEqual(directory[group_dn('child_1_1', "")]['member'],
                          [group_dn('child_1', '')])
-        self.assertTrue(group_dn('child_2_1', "") in directory.keys())
+        self.assertIn(group_dn('child_2_1', ""), directory)
         self.assertEqual(directory[group_dn('child_2_1', "")]['memberOf'], [])
         self.assertEqual(directory[group_dn('child_2_1', "")]['member'],
                          [group_dn('child_2', '')])
-        self.assertTrue(group_dn('child_2_2', "") in directory.keys())
+        self.assertIn(group_dn('child_2_2', ""), directory)
         self.assertEqual(directory[group_dn('child_2_2', "")]['memberOf'], [])
         self.assertEqual(directory[group_dn('child_2_2', "")]['member'],
                          [group_dn('child_2', '')])
@@ -92,7 +92,7 @@ class TestMockLdapDirectory(TestCase):
     def test_bind_user(self):
         directory = mock_ldap_directory(ldap_dc="")
         dn = person_dn('auth', "")
-        self.assertTrue(dn in directory.keys())
+        self.assertIn(dn, directory)
         self.assertEqual(directory[dn]['userPassword'], ['password'])
 
     def test_bind_password(self):

@@ -7,6 +7,7 @@ from django.contrib.admin.sites import AdminSite
 
 from baya.permissions import requires
 from baya.membership import ValueNode
+from functools import reduce
 
 
 # Keep a registry of baya-enabled admin sites so we can properly intercept
@@ -64,7 +65,7 @@ class NestedGroupsAdminSite(AdminSite):
                 requires(get=model_admin._gate.get_requires,
                          post=model_admin._gate.post_requires)(
                              include(model_admin.urls)))
-        return urls.values()
+        return list(urls.values())
 
     def _get_required_baya_groups(self, app_label=None):
         # Loop over all model admins, checking their set of permissions

@@ -1,5 +1,5 @@
+import collections
 import functools
-from types import TypeType
 
 from django.conf import settings
 from django.contrib.admin.options import BaseModelAdmin
@@ -7,6 +7,7 @@ from django.contrib.admin.options import InlineModelAdmin
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import RegexURLPattern
 from django.core.urlresolvers import RegexURLResolver
+import six
 
 from .membership import BaseNode
 from .membership import ValueNode
@@ -77,7 +78,7 @@ class Gate(object):
 
         if groups is None:
             groups = []
-        elif isinstance(groups, basestring):
+        elif isinstance(groups, six.string_types):
             groups = [group.strip() for group in groups.split(',')]
 
         return self.DEFAULT_PERMISSION_NODE(*groups)
@@ -171,7 +172,7 @@ class Gate(object):
         self.post_requires &= other.post_requires
         # Prefer other's login_url, if set
         if (other.login_url is not None and
-                unicode(other.login_url) != unicode(settings.BAYA_LOGIN_URL)):
+                six.text_type(other.login_url) != six.text_type(settings.BAYA_LOGIN_URL)):
             self.login_url = other.login_url
         return self
 
@@ -345,19 +346,19 @@ class requires(object):
                 'Cannot decorate a bare functools.partial view.  '
                 'You must invoke functools.update_wrapper(partial_view, '
                 'full_view) first.')
-        if not isinstance(fn, TypeType) and callable(fn):
+        if not isinstance(fn, type) and isinstance(fn, collections.Callable):
             return self.decorate_method(fn, *args, **kwargs)
         elif isinstance(fn, tuple):
             # Must be an include('my_app.urls') we're decorating
             return self.decorate_include(fn, *args, **kwargs)
         elif isinstance(fn, (RegexURLPattern, RegexURLResolver)):
             return self.decorate_url_pattern(fn, *args, **kwargs)
-        elif isinstance(fn, TypeType) and issubclass(fn, BaseModelAdmin):
+        elif isinstance(fn, type) and issubclass(fn, BaseModelAdmin):
             if issubclass(fn, InlineModelAdmin):
                 raise TypeError("Cannot decorate Inlines. See "
                                 "baya.admin.options.BayaInline instead.")
             return self.decorate_admin(fn, *args, **kwargs)
-        elif isinstance(fn, basestring):
+        elif isinstance(fn, six.string_types):
             raise TypeError("Cannot decorate string-path to view: %s." % fn)
         else:
             # You'll probably only get here if you're trying to decorate

@@ -3,6 +3,7 @@ from mock import patch
 from mock import sentinel
 from types import FunctionType
 
+import six
 from django.conf import settings
 from django.conf.urls import include
 from django.core.urlresolvers import reverse_lazy
@@ -40,7 +41,7 @@ class TestGate(LDAPGroupAuthTestBase):
 
     def test_case_insensitive(self):
         """Groups should be case insensitive."""
-        self.assertEquals(g('A'), g('a'))
+        self.assertEqual(g('A'), g('a'))
         self.assertTrue(self._has_permissions(g('A'), ['A']))
         self.assertTrue(self._has_permissions(g('A'), ['a']))
         self.assertTrue(self._has_permissions(g('a'), ['A']))
@@ -154,8 +155,8 @@ class TestGate(LDAPGroupAuthTestBase):
         custom_login = "/testlogin/"
         g3 = Gate(login_url=custom_login)
         self.assertEqual(g3.login_url, custom_login)
-        self.assertEqual(unicode((g3 + g2).login_url),
-                         unicode(custom_login))
+        self.assertEqual(six.text_type((g3 + g2).login_url),
+                         six.text_type(custom_login))
         self.assertEqual((g2 + g3).login_url, custom_login)
         with override_settings(BAYA_LOGIN_URL="/testlogin/"):
             g4 = Gate()
@@ -392,9 +393,8 @@ class TestRequires(LDAPGroupAuthTestBase):
         """Make sure requires(A)(include(my_app.urls)) works."""
         decorated_include = requires(A)(include(nested_urls2))
         for pattern in decorated_include[0].urlpatterns:
-            [cell] = filter(
-                lambda cell: isinstance(cell.cell_contents, requires),
-                pattern.resolve.func_closure)
+            [cell] = [cell for cell in pattern.resolve.__closure__
+                      if isinstance(cell.cell_contents, requires)]
             requirer = cell.cell_contents
             self.assertTrue(
                 PermissionChecker(['a']).visit(requirer.gate.get_requires))

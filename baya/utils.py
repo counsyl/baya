@@ -1,3 +1,4 @@
+import six
 from ldap.dn import str2dn
 
 from .membership import RolesNode as g
@@ -21,7 +22,7 @@ def user_in_group(user, group, **kwargs):
     user_groups = set()
     if hasattr(user, 'ldap_user'):
         user_groups = group_names(user.ldap_user.group_dns)
-    if isinstance(group, basestring):
+    if isinstance(group, six.string_types):
         group = g(group)
     return PermissionChecker(user_groups).visit(group, **kwargs)
 
@@ -58,11 +59,11 @@ def has_permission(fn, user, permission):
             raise ValueError(
                 "%s is not a valid permission to check." % permission)
         if check_perm(user):
-            if not hasattr(fn, 'func_closure'):
+            if not hasattr(fn, '__closure__'):
                 # Not wrapping any function, so bail out
                 return True
 
-            nested_fn = fn.func_closure[0].cell_contents
+            nested_fn = fn.__closure__[0].cell_contents
             if not _get_gate(nested_fn):
                 return True
             else:
