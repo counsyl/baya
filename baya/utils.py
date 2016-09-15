@@ -59,7 +59,7 @@ def has_permission(fn, user, permission):
             raise ValueError(
                 "%s is not a valid permission to check." % permission)
         if check_perm(user):
-            if not hasattr(fn, 'func_closure'):
+            if not hasattr(fn, '__closure__'):
                 # Not wrapping any function, so bail out
                 return True
 
