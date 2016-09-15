@@ -35,7 +35,7 @@ class BaseNode(object):
 
     # Comparisons.
     def __eq__(self, other):
-        return self.__class__ is other.__class__
+        raise NotImplementedError()
 
     def __ne__(self, other):
         return not (self == other)
@@ -54,16 +54,25 @@ class ValueNode(BaseNode):
     def __init__(self, value):
         self.value = value
 
+    def __hash__(self):
+        return hash((type(self), self.value))
+
     def __str__(self):
         return str(self.value)
 
     def __repr__(self):
         return "ValueNode(%s)" % repr(self.value)
 
+    def __eq__(self, other):
+        return self.__class__ is other.__class__ and self.value == other.value
+
 
 class RolesNode(BaseNode):
     def __init__(self, *roles):
-        self._roles_set = {role.lower() for role in roles}
+        self._roles_set = frozenset(role.lower() for role in roles)
+
+    def __hash__(self):
+        return hash((type(self), self._roles_set))
 
     def get_roles_set(self, **kwargs):
         return self._roles_set
@@ -136,7 +145,7 @@ class DynamicRolesNode(RolesNode):
     permissions.
     """
     def __init__(self, *roles_callables):
-        self._roles_set = set(roles_callables)
+        self._roles_set = frozenset(roles_callables)
 
     def get_roles_set(self, **kwargs):
         roles = set()
@@ -176,13 +185,14 @@ class OperatorNode(BaseNode):
                                 operand)
             # TODO: Check if operand is an instance of basestring and cast to
             # a BaseNode?
-        self._operands = operands
+        self._operands = tuple(operands)
+
+    def __hash__(self):
+        return hash((type(self), self._operands))
 
     def __eq__(self, other):
         return (self.__class__ is other.__class__ and
-                len(self._operands) == len(other._operands) and
-                all(op1 == op2 for op1, op2 in
-                    zip(self._operands, other._operands)))
+                self._operands == other._operands)
 
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__,
