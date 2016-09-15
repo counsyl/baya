@@ -1,6 +1,5 @@
 import collections
 import functools
-from types import TypeType
 
 from django.conf import settings
 from django.contrib.admin.options import BaseModelAdmin
@@ -347,14 +346,14 @@ class requires(object):
                 'Cannot decorate a bare functools.partial view.  '
                 'You must invoke functools.update_wrapper(partial_view, '
                 'full_view) first.')
-        if not isinstance(fn, TypeType) and isinstance(fn, collections.Callable):
+        if not isinstance(fn, type) and isinstance(fn, collections.Callable):
             return self.decorate_method(fn, *args, **kwargs)
         elif isinstance(fn, tuple):
             # Must be an include('my_app.urls') we're decorating
             return self.decorate_include(fn, *args, **kwargs)
         elif isinstance(fn, (RegexURLPattern, RegexURLResolver)):
             return self.decorate_url_pattern(fn, *args, **kwargs)
-        elif isinstance(fn, TypeType) and issubclass(fn, BaseModelAdmin):
+        elif isinstance(fn, type) and issubclass(fn, BaseModelAdmin):
             if issubclass(fn, InlineModelAdmin):
                 raise TypeError("Cannot decorate Inlines. See "
                                 "baya.admin.options.BayaInline instead.")
