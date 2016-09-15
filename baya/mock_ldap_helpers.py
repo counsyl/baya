@@ -99,12 +99,12 @@ def mock_ldap_directory(
         parent_group_lineage_dict[child].append(parent)
 
     # Create a person for every user, which includes that user's groups
-    for user, groups in users_to_groups.iteritems():
+    for user, groups in users_to_groups.items():
         all_users.append(person(user, groups, ldap_dc, default_password))
 
     # Now we need to build groups for every group we know about
     # First look at all of the groups which have users
-    for group_name, users in groups_to_users.iteritems():
+    for group_name, users in groups_to_users.items():
         people_in_group = [person_dn(user, ldap_dc) for user in users]
         parent_groups = [
             group_dn(parent_group, ldap_dc)
@@ -117,7 +117,7 @@ def mock_ldap_directory(
                    for child_group in child_group_lineage_dict[group_name]],
                   dc=ldap_dc))
     # Second, look at the groups that are only in a group hierarchy
-    for child, parents in parent_group_lineage_dict.iteritems():
+    for child, parents in parent_group_lineage_dict.items():
         if child in groups_to_users:
             # Skip it if we've already covered it above
             continue

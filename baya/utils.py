@@ -1,3 +1,4 @@
+import six
 from ldap.dn import str2dn
 
 from .membership import RolesNode as g
@@ -21,7 +22,7 @@ def user_in_group(user, group, **kwargs):
     user_groups = set()
     if hasattr(user, 'ldap_user'):
         user_groups = group_names(user.ldap_user.group_dns)
-    if isinstance(group, basestring):
+    if isinstance(group, six.string_types):
         group = g(group)
     return PermissionChecker(user_groups).visit(group, **kwargs)
 

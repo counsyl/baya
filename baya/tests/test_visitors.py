@@ -149,22 +149,22 @@ class TestExpressionWriter(TestCase):
 
     def test_operator_precedence(self):
         node = g('A') ^ g('B') | g('C') ^ g('D')
-        self.assertEquals('{a} ^ {b} | {c} ^ {d}', self.writer.visit(node),
+        self.assertEqual('{a} ^ {b} | {c} ^ {d}', self.writer.visit(node),
                           repr(node))
         node = ~(g('A') & g('B')) ^ (g('C') | g('D') & g('E'))
-        self.assertEquals('~{a, b} ^ ({c} | {d, e})', self.writer.visit(node),
+        self.assertEqual('~{a, b} ^ ({c} | {d, e})', self.writer.visit(node),
                           repr(node))
 
     def test_unary(self):
         node = ~~g('A')
-        self.assertEquals('~~{a}', self.writer.visit(node), repr(node))
+        self.assertEqual('~~{a}', self.writer.visit(node), repr(node))
         node = ~(g('A') ^ g('B'))
-        self.assertEquals('~({a} ^ {b})', self.writer.visit(node), repr(node))
+        self.assertEqual('~({a} ^ {b})', self.writer.visit(node), repr(node))
 
     def test_value_node(self):
         node = ~ValueNode(True)
-        self.assertEquals('~True', self.writer.visit(node))
+        self.assertEqual('~True', self.writer.visit(node))
         node = g('A') & ValueNode(False)
-        self.assertEquals('{a} & False', self.writer.visit(node))
+        self.assertEqual('{a} & False', self.writer.visit(node))
         node = ~node
-        self.assertEquals('~({a} & False)', self.writer.visit(node))
+        self.assertEqual('~({a} & False)', self.writer.visit(node))

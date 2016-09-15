@@ -40,11 +40,13 @@ class BaseNode(object):
     def __ne__(self, other):
         return not (self == other)
 
-    def __nonzero__(self):
+    def __bool__(self):
         raise TypeError(
             "You probably tried to do 'group1 or/and group2' which, due to "
             "python's semantics, only returns one group. Use a bitwise "
             "operator like &, |, or ^ instead.")
+
+    __nonzero__ = __bool__
 
 
 class ValueNode(BaseNode):

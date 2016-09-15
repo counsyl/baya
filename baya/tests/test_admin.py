@@ -1,3 +1,4 @@
+import six
 from django.contrib.admin.options import InlineModelAdmin
 
 from baya import RolesNode as g
@@ -61,7 +62,7 @@ class TestAdminSite(LDAPGroupAuthTestBase):
         app_list = index.context_data['app_list']
         self.assertEqual(len(app_list), 2)
         for app in app_list:
-            models = {unicode(model['name']) for model in app['models']}
+            models = {six.text_type(model['name']) for model in app['models']}
             if len(models) == 2:
                 self.assertEqual({"Blags", "Entries"}, models)
                 for model in app['models']:
@@ -82,8 +83,8 @@ class TestAdminSite(LDAPGroupAuthTestBase):
         self.assertEqual(len(app_list), 1)
         app_list = app_list[0]
         self.assertEqual(
-            set(["Blags"]),
-            set([unicode(model['name']) for model in app_list['models']]))
+            {"Blags"},
+            {six.text_type(model['name']) for model in app_list['models']})
         perms = app_list['models'][0]['perms']
         self.assertFalse(perms['add'])
         self.assertTrue(perms['change'])
