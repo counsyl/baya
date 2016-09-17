@@ -1,6 +1,7 @@
 import collections
 import functools
 
+import django
 from django.conf import settings
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.admin.options import InlineModelAdmin
@@ -153,7 +154,11 @@ class Gate(object):
         elif (request.method in self.GET_METHODS and
                 self.has_get_permission(request)):
             return None
-        if not request.user.is_authenticated():
+
+        is_authenticated = (
+            request.user.is_authenticated() if django.VERSION[:2] < (1, 10)
+            else request.user.is_authenticated)
+        if not is_authenticated:
             path = request.get_full_path()
             return redirect_to_login(path, self.login_url)
 
