@@ -177,7 +177,7 @@ class Gate(object):
         self.post_requires &= other.post_requires
         # Prefer other's login_url, if set
         if (other.login_url is not None and
-                six.text_type(other.login_url) != six.text_type(settings.BAYA_LOGIN_URL)):
+                six.text_type(other.login_url) != six.text_type(settings.BAYA_LOGIN_URL)):  # nopep8
             self.login_url = other.login_url
         return self
 

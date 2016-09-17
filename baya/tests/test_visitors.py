@@ -150,10 +150,10 @@ class TestExpressionWriter(TestCase):
     def test_operator_precedence(self):
         node = g('A') ^ g('B') | g('C') ^ g('D')
         self.assertEqual('{a} ^ {b} | {c} ^ {d}', self.writer.visit(node),
-                          repr(node))
+                         repr(node))
         node = ~(g('A') & g('B')) ^ (g('C') | g('D') & g('E'))
         self.assertEqual('~{a, b} ^ ({c} | {d, e})', self.writer.visit(node),
-                          repr(node))
+                         repr(node))
 
     def test_unary(self):
         node = ~~g('A')
