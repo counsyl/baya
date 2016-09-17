@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from django.contrib.auth.views import login
 from django.views.generic import ListView
 from django.contrib import admin
@@ -23,8 +23,7 @@ AA = g('aa')
 AAA = g('aaa')
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^$', requires(AA)(ListView.as_view(model=Blag)), name='index'),
     url(r'^login/$', login, name='login'),
     url(r'^lazy_login/$', login, name='lazy_login'),
@@ -48,4 +47,4 @@ urlpatterns = patterns(
         name='query_param_view'),
     url(r'^admin/', include(site.urls), name='admin'),
     url(r'^submod2/', include(sub2_urls, namespace='ns-submod2')),
-)
+]

@@ -230,7 +230,7 @@ Decorating the URLs is the preferred usage, since decorating the view methods
 themselves makes you hunt around for the permissions.
 
 ```python
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic import ListView
 
 from baya import requires
@@ -239,13 +239,12 @@ from baya import RolesNode as g
 from .models import Blag
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     # Protect a single view
     url(r'^$', requires(g('group1'), post=g('group2'))(ListView.as_view(model=Blag))),
     # Protect an entire URL module include
     url(r'^billing/', requires(get=g('billing_ro'), post=g('billing'))(include('my_app.billing.urls'))),
-)
+]
 ```
 
 **Note** Typing the same `g('my_group')` over and over is tedious, verbose,
@@ -253,7 +252,7 @@ and prone to typos. A better pattern is to define the groups you'll be using
 as constants at the module level:
 
 ```python
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic import ListView
 
 from baya import requires
@@ -269,14 +268,13 @@ BILLING_RO = g('billing_ro')
 
 SUPER_GROUP = GROUP1 & GROUP2
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     # Protect a single view
     url(r'^$', requires(GROUP1, post=GROUP2)(ListView.as_view(model=Blag))),
     url(r'^super/$', requires(SUPER_GROUP)(ListView.as_view(model=Entry))),
     # Protect an entire URL module include
     url(r'^billing/', requires(get=BILLING_RO, post=BILLING)(include('my_app.billing.urls'))),
-)
+]
 ```
 
 
@@ -318,7 +316,6 @@ to every request, and not just a particular CRUD verb.
 
 ```python
 from django.contrib import admin
-from django.conf.urls import patterns
 from django.conf.urls import url
 from django.shortcuts import render
 
@@ -341,12 +338,11 @@ class BlagOptions(BayaModelAdmin):
 
         # This inner url ends up protected like this:
         # requires(get="Aaa", post="a")(requires("B")(self.inner))
-        urls += patterns(
-            '',
+        urls += [
             url(r'inner_admin_view',
                 requires(g('B'))(self.inner),
                 name='inner')
-        )
+        ]
         return urls
 
     def inner(self, request):
