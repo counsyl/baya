@@ -9,6 +9,7 @@ from baya import requires
 from baya import RolesNode as g
 from baya.membership import DynamicRolesNode as dg
 from baya.dynamic_roles import DjangoRequestGroupFormatter as drgf
+from baya.tests import views
 
 from .models import Blag
 from .views import my_view
@@ -27,7 +28,7 @@ urlpatterns = [
     url(r'^$', requires(AA)(ListView.as_view(model=Blag)), name='index'),
     url(r'^login/$', login, name='login'),
     url(r'^lazy_login/$', login, name='lazy_login'),
-    url(r'^my_view_str/$', 'baya.tests.views.my_view', name='my_view_str'),
+    url(r'^my_view_str/$', views.my_view, name='my_view_str'),
     url(r'^my_view/$', my_view, name='my_view'),
     url(r'^lazy_login_my_view',
         requires(AA, login_url=reverse_lazy('lazy_login'))(my_view),
