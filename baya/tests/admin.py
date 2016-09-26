@@ -1,4 +1,3 @@
-from django.conf.urls import patterns
 from django.conf.urls import url
 from django.contrib import admin
 from django.shortcuts import render
@@ -56,14 +55,13 @@ class BlagOptions(BayaModelAdmin):
 
     def get_urls(self):
         urls = super(BlagOptions, self).get_urls()
-        my_urls = patterns(
-            '',
+        my_urls = [
             # Just having B isn't enough to access this URL, because you still
             # need the GET permission from the class definition.
             url(r'^list/$',
                 requires(B)(self.list_of_blags),
                 name='list'),
-        )
+        ]
         return my_urls + urls
 
     def list_of_blags(self, request):

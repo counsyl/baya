@@ -1,12 +1,11 @@
 from __future__ import absolute_import
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 from .baya.tests import urls as eu
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^', include(eu)),
-)
+]
 
 from .baya.mock_ldap_helpers import mock_ldap_setup
 from .baya.tests import directory

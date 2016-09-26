@@ -1,6 +1,7 @@
 import collections
 import functools
 
+import django
 from django.conf import settings
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.admin.options import InlineModelAdmin
@@ -153,7 +154,11 @@ class Gate(object):
         elif (request.method in self.GET_METHODS and
                 self.has_get_permission(request)):
             return None
-        if not request.user.is_authenticated():
+
+        is_authenticated = (
+            request.user.is_authenticated() if django.VERSION[:2] < (1, 10)
+            else request.user.is_authenticated)
+        if not is_authenticated:
             path = request.get_full_path()
             return redirect_to_login(path, self.login_url)
 
@@ -172,7 +177,7 @@ class Gate(object):
         self.post_requires &= other.post_requires
         # Prefer other's login_url, if set
         if (other.login_url is not None and
-                six.text_type(other.login_url) != six.text_type(settings.BAYA_LOGIN_URL)):
+                six.text_type(other.login_url) != six.text_type(settings.BAYA_LOGIN_URL)):  # nopep8
             self.login_url = other.login_url
         return self
 

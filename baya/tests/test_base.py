@@ -1,7 +1,7 @@
 from mock import MagicMock
 
+import django
 from django_auth_ldap import backend
-
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
@@ -42,7 +42,12 @@ class LDAPGroupAuthTestBase(TestCase):
         request = MagicMock()
         if user:
             request.user = user
-            request.user.is_authenticated = MagicMock(return_value=True)
+            if django.VERSION[:2] >= (1, 10):
+                # Django 1.10 made `User.is_authenticated` into a property for
+                # some reason.
+                request.user.is_authenticated.__get__ = MagicMock(return_value=True)  # nopep8
+            else:
+                request.user.is_authenticated = MagicMock(return_value=True)
         else:
             request.user = AnonymousUser()
         request.GET = {}
