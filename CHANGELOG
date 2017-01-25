@@ -1,1 +1,2 @@
+1.0.1: Add Service-Accounts to directory list returned by mock_ldap_directory.
 1.0.0: Python 3.5 support. Drop support for Django 1.6 and 1.7.

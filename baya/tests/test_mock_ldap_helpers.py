@@ -60,7 +60,7 @@ class TestMockLdapDirectory(TestCase):
             ],
             ldap_dc="",
         )
-        self.assertEqual(len(directory), 11)
+        self.assertEqual(len(directory), 12)
         self.assertIn(group_dn('child_1', ""), directory)
         self.assertEqual(directory[group_dn('child_1', '')]['memberOf'],
                          [group_dn('child_1_1', '')])
@@ -87,7 +87,16 @@ class TestMockLdapDirectory(TestCase):
 
     def test_no_args(self):
         directory = mock_ldap_directory()
-        self.assertEqual(len(directory), 4)
+        self.assertEqual(len(directory), 5)
+        self.assertSetEqual(
+            set(directory.keys()),
+            {
+                'ou=Access,dc=example,dc=com',
+                'dc=example,dc=com',
+                'ou=Service-Accounts,dc=example,dc=com',
+                'cn=auth,ou=people,dc=example,dc=com',
+                'ou=People,dc=example,dc=com'
+            })
 
     def test_bind_user(self):
         directory = mock_ldap_directory(ldap_dc="")
