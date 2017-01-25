@@ -79,6 +79,8 @@ def mock_ldap_directory(
     top = (ldap_dc, {"dc": ldap_dc})
     people = ("ou=People,%s" % ldap_dc, {"ou": "People"})
     access = ("ou=Access,%s" % ldap_dc, {"ou": "Access"})
+    service_accounts = ("ou=Service-Accounts,%s" % ldap_dc,
+                        {"ou": "Service-Accounts"})
     auth_user = person(bind_user, [], ldap_dc, bind_password)
 
     all_users = []
@@ -128,7 +130,7 @@ def mock_ldap_directory(
                    for child_group in child_group_lineage_dict[child]],
                   dc=ldap_dc))
 
-    directory = [top, people, access, auth_user]
+    directory = [top, people, access, service_accounts, auth_user]
     directory.extend(all_users)
     directory.extend(all_groups)
     return dict(directory)
