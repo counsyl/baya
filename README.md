@@ -1,10 +1,10 @@
 # Baya
 
 Baya is a library for using nested LDAP Groups for authorization. It lets you
-put urls, methods, CBVs, and Admin views behind access control that uses nested
+put URLs, methods, CBVs, and Admin views behind access control that uses nested
 LDAP groupOfNames.
 
-This also includes an example Django site in the `tests` directory.
+This also includes an example Django site in the `testsite` directory.
 
 The Baya Weaver is a species of bird that weaves complex nests.
 
@@ -21,7 +21,7 @@ license.
 pip install baya
 ```
 
-If you wish to use mockldap during your development process with Baya, you can install it as part of the optional development dependencies by using:
+If you wish to use `mockldap` during your development process with Baya, you can install it as part of the optional development dependencies by using:
 
 ```sh
 pip install baya[development]
@@ -89,6 +89,15 @@ BAYA_LOGIN_URL = "/internal/login/url"
 ```
 
 Of course, change the values to match your actual setup.
+
+## LDAP client configuration
+
+By default, Baya uses `ldap.initialize` to make the LDAP connection. To use the
+`ReconnectLDAPObject` provided by the `ldap` package, configure this setting:
+
+```
+BAYA_USE_RECONNECTING_CLIENT
+```
 
 ## Admin configuration
 

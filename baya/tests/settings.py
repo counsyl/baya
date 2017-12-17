@@ -36,6 +36,7 @@ ROOT_URLCONF = "baya.tests.urls"
 LOGIN_URL = '/login/'
 
 BAYA_LOGIN_URL = reverse_lazy('login')
+BAYA_USE_RECONNECTING_CLIENT = True
 
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
