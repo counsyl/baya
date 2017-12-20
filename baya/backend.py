@@ -71,6 +71,13 @@ class ReconnectingLDAP(object):
         self._original_module = original_module
 
     def __getattr__(self, name):
+        """
+        Return the requested value from the original module.
+
+        This is called when ordinary attribute lookups fail.
+        Since initialize is defined below, it will not be called
+        for accesses to that attribute.
+        """
         return getattr(self._original_module, name)
 
     def initialize(self, uri):
