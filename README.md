@@ -96,7 +96,7 @@ By default, Baya uses `ldap.initialize` to make the LDAP connection. To use the
 `ReconnectLDAPObject` provided by the `ldap` package, configure this setting:
 
 ```
-BAYA_USE_RECONNECTING_CLIENT
+BAYA_USE_RECONNECTING_CLIENT = True
 ```
 
 ## Admin configuration
