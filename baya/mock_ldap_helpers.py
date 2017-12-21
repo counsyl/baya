@@ -149,7 +149,20 @@ def mock_ldap_setup(
     `.start()` on the returned value.
     """
     from django.conf import settings
+    import mock
     import mockldap
+
+    class MockLDAP(mockldap.MockLdap):
+        def start(self, *args, **kwargs):
+            super(MockLDAP, self).start(*args, **kwargs)
+            self._reconnect_patcher = mock.patch(
+                'ldap.ldapobject.ReconnectLDAPObject',
+                new_callable=lambda: self.initialize)
+            self._reconnect_patcher.start()
+
+        def stop(self, *args, **kwargs):
+            self._reconnect_patcher.stop()
+            super(MockLDAP, self).stop(*args, **kwargs)
 
     directory = mock_ldap_directory(ldap_dc, bind_user, **kwargs)
 
@@ -157,4 +170,4 @@ def mock_ldap_setup(
     settings.AUTH_LDAP_BIND_DN = bind_user_dn
     settings.AUTH_LDAP_BIND_PASSWORD = \
         directory[bind_user_dn]['userPassword'][0]
-    return mockldap.MockLdap(directory)
+    return MockLDAP(directory)
