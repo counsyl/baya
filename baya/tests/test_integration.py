@@ -242,10 +242,11 @@ class TestAdminIntegration(_IntegrationBase):
                 self.assertNotContains(response, 'Entries')
                 self.assertContains(response, 'Comments')
             else:
-                # In django <1.7 B gets a 404 for app_list.
-                # In django >=1.7 B get sa 403, like you'd expect
-                if StrictVersion('1.7.0') <= StrictVersion(
-                        get_django_version()):
+                # In django <1.7 >1.10 B gets a 404 for app_list.
+                # In django >=1.7 <=1.10 B get sa 403, like you'd expect.
+                django_version = StrictVersion(get_django_version())
+                if (django_version >= StrictVersion('1.7.0')
+                        and django_version < StrictVersion('1.11.0')):
                     expected_status = DENIED
                 else:
                     expected_status = NOT_FOUND
