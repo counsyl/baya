@@ -1,3 +1,4 @@
+1.1.2: Change `initialize` declaration to be compatible with django-auth-ldap>=1.5.0.
 1.1.1: Add support for all versions of Django < 2.0
 1.1.0: Add support for using the reconnecting LDAP client via BAYA_USE_RECONNECTING_CLIENT.
 1.0.1: Add Service-Accounts to directory list returned by mock_ldap_directory.
