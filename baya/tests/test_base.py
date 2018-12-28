@@ -35,7 +35,7 @@ class LDAPGroupAuthTestBase(TestCase):
 
     def login(self, username):
         return self.backend.authenticate(
-            username=username, password='password')
+            self.mock_get_request(), username=username, password='password')
 
     def _build_mock_request(self, user=None, get=None, post=None):
         request = MagicMock()
