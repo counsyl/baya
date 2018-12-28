@@ -17,10 +17,10 @@ default:
 .PHONY: venv
 venv: $(VENV_ACTIVATE)
 
-$(VENV_ACTIVATE): requirements*.txt
+$(VENV_ACTIVATE): requirements*.txt setup.py
 	test -f $@ || virtualenv --python=python2.7 $(VENV_DIR)
 	$(WITH_VENV) pip install --no-deps -r requirements-setup.txt
-	$(WITH_VENV) pip install --no-deps -r requirements.txt
+	$(WITH_VENV) pip install -e .
 	$(WITH_VENV) pip install --no-deps -r requirements-dev.txt
 
 develop: venv
