@@ -1,3 +1,0 @@
-django-auth-ldap>=1.2.8
-funcparserlib>=0.3.6  # required by mockldap, but not declared as a dependency?
-six>=1.3

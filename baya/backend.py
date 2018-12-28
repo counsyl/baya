@@ -80,6 +80,12 @@ class ReconnectingLDAP(object):
         """
         return getattr(self._original_module, name)
 
-    def initialize(self, uri):
+    def initialize(self, uri, bytes_mode=False):
+        # `bytes_mode` is used by `initialize` but not by
+        # `ReconnectLDAPObject`: since `ReconnectingLDAP` tries to mimic
+        # `initialize` by wrapping `ReconnectLDAPObject`, it makes sense that
+        # the kwarg would be accepted but discarded.  As of version 1.6.1,
+        # there is only one call to `initialize` in `django-auth-ldap`, and the
+        # only kwarg used is `bytes_mode=False`.
         return self._original_module.ldapobject.ReconnectLDAPObject(
             uri, retry_max=self.retry_max)

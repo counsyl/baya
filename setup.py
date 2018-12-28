@@ -1,7 +1,5 @@
 import os
 
-from pip.download import PipSession
-from pip.req import parse_requirements
 from setuptools import find_packages
 from setuptools import setup
 
@@ -42,14 +40,6 @@ long_description += "build_revision: {}\n".format(os.getenv('GO_REVISION'))
 long_description += "build_pipeline: {}\n".format(os.getenv('GO_PIPELINE_NAME'))
 long_description += "build_label:    {}\n".format(os.getenv('GO_PIPELINE_LABEL'))
 
-requirements = ['Django'] + [
-    str(ir.req)
-    for ir in parse_requirements('./requirements.txt', session=PipSession())]
-
-test_requirements = [
-    str(ir.req)
-    for ir in parse_requirements('./requirements-dev.txt', session=PipSession())]
-
 setup(
     name='baya',
     version=version,
@@ -74,11 +64,13 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
     ],
+    install_requires=[
+        'django-auth-ldap>=1.2.8',
+        'six>=1.3'
+    ],
     packages=find_packages(exclude=[
         'tests', 'tests.*']),
     include_package_data=True,
-    install_requires=requirements,
-    tests_require=test_requirements,
     extras_require={
         'development': [
             'mockldap>=0.2.0',
