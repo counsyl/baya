@@ -26,8 +26,8 @@ AAA = g('aaa')
 
 urlpatterns = [
     url(r'^$', requires(AA)(ListView.as_view(model=Blag)), name='index'),
-    url(r'^login/$', LoginView.as_view(template_name='login.html'), name='login'),
-    url(r'^lazy_login/$', LoginView.as_view(template_name='login.html'), name='lazy_login'),
+    url(r'^login/$', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    url(r'^lazy_login/$', LoginView.as_view(template_name='registration/login.html'), name='lazy_login'),
     url(r'^my_view_str/$', views.my_view, name='my_view_str'),
     url(r'^my_view/$', my_view, name='my_view'),
     url(r'^lazy_login_my_view',
