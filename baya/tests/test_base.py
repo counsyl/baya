@@ -41,7 +41,7 @@ class LDAPGroupAuthTestBase(TestCase):
         request = MagicMock()
         if user:
             request.user = user
-            request.user.is_authenticated.__get__ = MagicMock(return_value=True)  # nopep8
+            request.user.__dict__['is_authenticated'] = True
         else:
             request.user = AnonymousUser()
         request.GET = {}
