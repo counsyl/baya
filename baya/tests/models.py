@@ -8,7 +8,7 @@ class Blag(models.Model):
 
 
 class BlagEntry(models.Model):
-    blag = models.ForeignKey(Blag)
+    blag = models.ForeignKey(Blag, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     body = models.TextField()
 
@@ -17,6 +17,6 @@ class BlagEntry(models.Model):
 
 
 class PhotoBlagEntry(models.Model):
-    blag = models.ForeignKey(Blag)
+    blag = models.ForeignKey(Blag, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     # and a file field for a photo but whatever
