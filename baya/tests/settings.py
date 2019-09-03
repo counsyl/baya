@@ -2,7 +2,7 @@ import ldap
 import os
 
 import django
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django_auth_ldap.config import LDAPSearch
 from django_auth_ldap.config import NestedGroupOfNamesType
 

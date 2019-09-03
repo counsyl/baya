@@ -1,7 +1,7 @@
 from baya.utils import has_permission
 from django import template
-from django.core.urlresolvers import resolve
-from django.core.urlresolvers import reverse
+from django.urls import resolve
+from django.urls import reverse
 
 register = template.Library()
 
