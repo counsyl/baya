@@ -47,7 +47,7 @@ class NestedGroupsAdminSite(AdminSite):
         """
         # We have to maintain the URL ordering due to the way URLs are resolved
         # TODO - Test this, can lead to heisenbugs
-        urls = OrderedDict((urlp.regex.pattern, urlp) for urlp in
+        urls = OrderedDict((urlp.pattern.regex, urlp) for urlp in
                            super(NestedGroupsAdminSite, self).get_urls())
         for model, model_admin in self._get_admins_with_gate():
             if hasattr(model._meta, 'module_name'):
