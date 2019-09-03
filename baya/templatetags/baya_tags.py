@@ -6,7 +6,7 @@ from django.urls import reverse
 register = template.Library()
 
 
-@register.assignment_tag(takes_context=True)
+@register.simple_tag(takes_context=True)
 def can_user_perform_action(context, action, *args, **kwargs):
     """
     Assignment tag to check user permission within a template.
