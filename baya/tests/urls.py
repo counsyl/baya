@@ -46,6 +46,6 @@ urlpatterns = [
     url(r'^query_param/(?P<name>\w+)/',
         requires(dg(drgf('%s', 'name')))(query_param_view),
         name='query_param_view'),
-    url(r'^admin/', include(site.urls), name='admin'),
+    url(r'^admin/', site.urls, name='admin'),
     url(r'^submod2/', include(sub2_urls, namespace='ns-submod2')),
 ]

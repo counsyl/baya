@@ -6,6 +6,8 @@ from .views import my_view
 from .views import my_undecorated_view
 from . import nested_urls2
 
+app_name = 'nested1'
+
 
 urlpatterns = [
     url(r'^my_view/$', my_view, name='nested1_my_view'),
