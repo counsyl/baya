@@ -1,9 +1,12 @@
 from mock import MagicMock
 
+import django
 from django_auth_ldap import backend
+from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
+from django.middleware.csrf import _salt_cipher_secret, _get_new_csrf_string
 from django.test import TestCase
 
 from . import directory
@@ -41,11 +44,24 @@ class LDAPGroupAuthTestBase(TestCase):
         request = MagicMock()
         if user:
             request.user = user
-            request.user.is_authenticated.__get__ = MagicMock(return_value=True)  # nopep8
+            if django.VERSION[0] == 1:
+                request.user.is_authenticated.__get__ = MagicMock(return_value=True)
+            elif django.VERSION[0] >= 2:
+                request.user.__dict__['is_authenticated'] = True
         else:
             request.user = AnonymousUser()
+
+        csrf = _salt_cipher_secret(
+            _get_new_csrf_string()
+        )
         request.GET = {}
         request.POST = {}
+        request.META = {
+            "SCRIPT_NAME": "/"
+        }
+        request.COOKIES = {
+            settings.CSRF_COOKIE_NAME: csrf
+        }
         request.resolver_match.kwargs = {}
         if get is not None:
             request.GET.update(get)

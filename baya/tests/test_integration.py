@@ -1,7 +1,7 @@
 from distutils.version import StrictVersion
 
 from django import get_version as get_django_version
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.utils import override_settings
 
 from baya.tests.test_base import LDAPGroupAuthTestBase
@@ -138,11 +138,11 @@ class TestIntegration(_IntegrationBase):
         """
         Decorating an entire include should work and check all permissions.
         """
-        self._get_and_assert_access('nested1_my_view', 'has_all', OK)
-        self._get_and_assert_access('nested1_my_view', 'has_a', OK)
-        self._get_and_assert_access('nested1_my_view', 'has_aa', OK)
-        self._get_and_assert_access('nested1_my_view', 'has_aaa', DENIED)
-        self._get_and_assert_access('nested1_my_view', 'has_b', DENIED)
+        self._get_and_assert_access('nested1:nested1_my_view', 'has_all', OK)
+        self._get_and_assert_access('nested1:nested1_my_view', 'has_a', OK)
+        self._get_and_assert_access('nested1:nested1_my_view', 'has_aa', OK)
+        self._get_and_assert_access('nested1:nested1_my_view', 'has_aaa', DENIED)
+        self._get_and_assert_access('nested1:nested1_my_view', 'has_b', DENIED)
 
     def test_nested_namespaced_my_view(self):
         """
@@ -161,32 +161,32 @@ class TestIntegration(_IntegrationBase):
 
     def test_nested_my_undecorated_view(self):
         self._get_and_assert_access(
-            'nested1_my_undecorated_view', 'has_all', OK)
+            'nested1:nested1_my_undecorated_view', 'has_all', OK)
         self._get_and_assert_access(
-            'nested1_my_undecorated_view', 'has_a', OK)
+            'nested1:nested1_my_undecorated_view', 'has_a', OK)
         self._get_and_assert_access(
-            'nested1_my_undecorated_view', 'has_aa', OK)
+            'nested1:nested1_my_undecorated_view', 'has_aa', OK)
         self._get_and_assert_access(
-            'nested1_my_undecorated_view', 'has_aaa', DENIED)
+            'nested1:nested1_my_undecorated_view', 'has_aaa', DENIED)
 
     def test_nested_nested_my_view(self):
-        self._get_and_assert_access('nested_nested_my_view', 'has_all', OK)
-        self._get_and_assert_access('nested_nested_my_view', 'has_a', OK)
-        self._get_and_assert_access('nested_nested_my_view', 'has_aa', OK)
-        self._get_and_assert_access('nested_nested_my_view', 'has_aaa', DENIED)
-        self._get_and_assert_access('nested_nested_my_view', 'has_b', DENIED)
+        self._get_and_assert_access('nested1:nested_nested_my_view', 'has_all', OK)
+        self._get_and_assert_access('nested1:nested_nested_my_view', 'has_a', OK)
+        self._get_and_assert_access('nested1:nested_nested_my_view', 'has_aa', OK)
+        self._get_and_assert_access('nested1:nested_nested_my_view', 'has_aaa', DENIED)
+        self._get_and_assert_access('nested1:nested_nested_my_view', 'has_b', DENIED)
 
     def test_nested_nested_my_undecorated_view(self):
         self._get_and_assert_access(
-            'nested_nested_my_undecorated_view', 'has_all', OK)
+            'nested1:nested_nested_my_undecorated_view', 'has_all', OK)
         self._get_and_assert_access(
-            'nested_nested_my_undecorated_view', 'has_a', OK)
+            'nested1:nested_nested_my_undecorated_view', 'has_a', OK)
         self._get_and_assert_access(
-            'nested_nested_my_undecorated_view', 'has_aa', DENIED)
+            'nested1:nested_nested_my_undecorated_view', 'has_aa', DENIED)
         self._get_and_assert_access(
-            'nested_nested_my_undecorated_view', 'has_aaa', DENIED)
+            'nested1:nested_nested_my_undecorated_view', 'has_aaa', DENIED)
         self._get_and_assert_access(
-            'nested_nested_my_undecorated_view', 'has_b', DENIED)
+            'nested1:nested_nested_my_undecorated_view', 'has_b', DENIED)
 
     def test_query_param(self):
         self._get_and_assert_access(

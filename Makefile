@@ -4,6 +4,12 @@ VENV_ACTIVATE=$(VENV_DIR)/bin/activate
 WITH_VENV=. $(VENV_ACTIVATE);
 TEST_OUTPUT?=nosetests.xml
 
+ifdef TRAVIS_PYTHON_VERSION
+    PYTHON=python$(TRAVIS_PYTHON_VERSION)
+else
+    PYTHON=python3.7
+endif
+
 ifdef TOX_ENV
 	TOX_ENV_FLAG := -e $(TOX_ENV)
 else
@@ -18,7 +24,7 @@ default:
 venv: $(VENV_ACTIVATE)
 
 $(VENV_ACTIVATE): requirements*.txt setup.py
-	test -f $@ || virtualenv --python=python2.7 $(VENV_DIR)
+	test -f $@ || virtualenv --python=$(PYTHON) $(VENV_DIR)
 	$(WITH_VENV) pip install --no-deps -r requirements-setup.txt
 	$(WITH_VENV) pip install -e .
 	$(WITH_VENV) pip install --no-deps -r requirements-dev.txt

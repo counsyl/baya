@@ -6,8 +6,12 @@ from django.conf import settings
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.admin.options import InlineModelAdmin
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import RegexURLPattern
-from django.core.urlresolvers import RegexURLResolver
+if django.VERSION[0] == 1:
+    from django.core.urlresolvers import RegexURLPattern as URLPattern
+    from django.core.urlresolvers import RegexURLResolver as URLResolver
+elif django.VERSION[0] >= 2:
+    from django.urls.resolvers import URLPattern
+    from django.urls.resolvers import URLResolver
 import six
 
 from .membership import BaseNode
@@ -356,7 +360,7 @@ class requires(object):
         elif isinstance(fn, tuple):
             # Must be an include('my_app.urls') we're decorating
             return self.decorate_include(fn, *args, **kwargs)
-        elif isinstance(fn, (RegexURLPattern, RegexURLResolver)):
+        elif isinstance(fn, (URLPattern, URLResolver)):
             return self.decorate_url_pattern(fn, *args, **kwargs)
         elif isinstance(fn, type) and issubclass(fn, BaseModelAdmin):
             if issubclass(fn, InlineModelAdmin):

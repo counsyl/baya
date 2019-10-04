@@ -6,7 +6,7 @@ from types import FunctionType
 import six
 from django.conf import settings
 from django.conf.urls import include
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.test.utils import override_settings
 from django.views.generic import ListView

@@ -2,7 +2,7 @@ import ldap
 import os
 
 import django
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django_auth_ldap.config import LDAPSearch
 from django_auth_ldap.config import NestedGroupOfNamesType
 
@@ -84,7 +84,9 @@ STATIC_URL = '/static/'
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-MIDDLEWARE_CLASSES = (
+CSRF_USE_SESSIONS = False
+
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

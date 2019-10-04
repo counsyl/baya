@@ -1,6 +1,6 @@
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.conf.urls import include, url
-from django.contrib.auth.views import login
+from django.contrib.auth.views import LoginView
 from django.views.generic import ListView
 from django.contrib import admin
 admin.autodiscover()
@@ -26,8 +26,12 @@ AAA = g('aaa')
 
 urlpatterns = [
     url(r'^$', requires(AA)(ListView.as_view(model=Blag)), name='index'),
-    url(r'^login/$', login, name='login'),
-    url(r'^lazy_login/$', login, name='lazy_login'),
+    url(r'^login/$', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    url(
+        r'^lazy_login/$',
+        LoginView.as_view(template_name='registration/login.html'),
+        name='lazy_login'
+    ),
     url(r'^my_view_str/$', views.my_view, name='my_view_str'),
     url(r'^my_view/$', my_view, name='my_view'),
     url(r'^lazy_login_my_view',
@@ -46,6 +50,6 @@ urlpatterns = [
     url(r'^query_param/(?P<name>\w+)/',
         requires(dg(drgf('%s', 'name')))(query_param_view),
         name='query_param_view'),
-    url(r'^admin/', include(site.urls), name='admin'),
+    url(r'^admin/', site.urls, name='admin'),
     url(r'^submod2/', include(sub2_urls, namespace='ns-submod2')),
 ]

@@ -1,12 +1,12 @@
 from baya.utils import has_permission
 from django import template
-from django.core.urlresolvers import resolve
-from django.core.urlresolvers import reverse
+from django.urls import resolve
+from django.urls import reverse
 
 register = template.Library()
 
 
-@register.assignment_tag(takes_context=True)
+@register.simple_tag(takes_context=True)
 def can_user_perform_action(context, action, *args, **kwargs):
     """
     Assignment tag to check user permission within a template.
