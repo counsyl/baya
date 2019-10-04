@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from operator import or_
 
+import django
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib.admin.sites import AdminSite
@@ -13,6 +14,13 @@ from functools import reduce
 # Keep a registry of baya-enabled admin sites so we can properly intercept
 # permissions checking in NestedLDAPGroupsBackend.
 _admin_registry = set()
+
+
+def _get_regex(url):
+    if django.VERSION[0] == 1:
+        return url.regex.pattern
+    elif django.VERSION[0] >= 2:
+        return url.pattern.regex
 
 
 class NestedGroupsAdminSite(AdminSite):
@@ -47,7 +55,7 @@ class NestedGroupsAdminSite(AdminSite):
         """
         # We have to maintain the URL ordering due to the way URLs are resolved
         # TODO - Test this, can lead to heisenbugs
-        urls = OrderedDict((urlp.pattern.regex, urlp) for urlp in
+        urls = OrderedDict((_get_regex(urlp), urlp) for urlp in
                            super(NestedGroupsAdminSite, self).get_urls())
         for model, model_admin in self._get_admins_with_gate():
             if hasattr(model._meta, 'module_name'):

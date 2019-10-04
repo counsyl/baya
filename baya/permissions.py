@@ -6,8 +6,12 @@ from django.conf import settings
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.admin.options import InlineModelAdmin
 from django.core.exceptions import PermissionDenied
-from django.urls.resolvers import URLPattern
-from django.urls.resolvers import URLResolver
+if django.VERSION[0] == 1:
+    from django.core.urlresolvers import RegexURLPattern as URLPattern
+    from django.core.urlresolvers import RegexURLResolver as URLResolver
+elif django.VERSION[0] >= 2:
+    from django.urls.resolvers import URLPattern
+    from django.urls.resolvers import URLResolver
 import six
 
 from .membership import BaseNode
