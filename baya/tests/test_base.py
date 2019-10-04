@@ -1,5 +1,6 @@
 from mock import MagicMock
 
+import django
 from django_auth_ldap import backend
 from django.conf import settings
 from django.contrib.auth.models import Group
@@ -43,7 +44,10 @@ class LDAPGroupAuthTestBase(TestCase):
         request = MagicMock()
         if user:
             request.user = user
-            request.user.__dict__['is_authenticated'] = True
+            if django.VERSION[0] == 1:
+                request.user.is_authenticated.__get__ = MagicMock(return_value=True)
+            elif django.VERSION[0] >= 2:
+                request.user.__dict__['is_authenticated'] = True
         else:
             request.user = AnonymousUser()
 
