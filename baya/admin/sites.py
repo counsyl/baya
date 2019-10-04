@@ -1,3 +1,5 @@
+import re
+import sys
 from collections import OrderedDict
 from operator import or_
 
@@ -68,7 +70,23 @@ class NestedGroupsAdminSite(AdminSite):
             pattern = (
                 r'^%s/%s/' %
                 (model._meta.app_label, model_name))
-            urls[pattern] = url(
+
+            # The pattern is used as a key and must be formatted to match what is already in urls
+            # else it will be added as a new pattern. When the newly constructed pattern doesn't
+            # match, both the old and new version of the pattern will be in the urls. The old
+            # pattern will match requests because it's earlier in the list.
+            if django.VERSION[0] == 1:
+                compiled_pattern = pattern
+            elif django.VERSION[0] >= 2:
+                # django >= 2.0 pattern must be compiled into regex
+                if sys.version_info[0] == 3 and sys.version_info[1] <= 6:
+                    # python 3.0 through 3.6 must escape slashes in the regex
+                    escaped_pattern = pattern.replace('/', '\/')
+                else:
+                    escaped_pattern = pattern
+                compiled_pattern = re.compile(escaped_pattern)
+
+            urls[compiled_pattern] = url(
                 pattern,
                 requires(get=model_admin._gate.get_requires,
                          post=model_admin._gate.post_requires)(

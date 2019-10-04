@@ -57,7 +57,7 @@ class LDAPGroupAuthTestBase(TestCase):
         request.GET = {}
         request.POST = {}
         request.META = {
-             "SCRIPT_NAME": "/"
+            "SCRIPT_NAME": "/"
         }
         request.COOKIES = {
             settings.CSRF_COOKIE_NAME: csrf
