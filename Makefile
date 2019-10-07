@@ -7,7 +7,7 @@ TEST_OUTPUT?=nosetests.xml
 ifdef TRAVIS_PYTHON_VERSION
     PYTHON=python$(TRAVIS_PYTHON_VERSION)
 else
-    PYTHON=python3.7
+    PYTHON=python3.6
 endif
 
 ifdef TOX_ENV
