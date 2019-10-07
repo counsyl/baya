@@ -1,7 +1,7 @@
 # Requirements needed for the setup make target and the test target
 # outside of the individual tox environments.
 
-Django>=2.0
+Django>=1.11
 pluggy==0.3.0
 py==1.4.27
 tox==2.0.1
