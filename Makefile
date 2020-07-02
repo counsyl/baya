@@ -58,8 +58,6 @@ test: venv
 	coverage erase ; \
 	tox -v $(TOX_ENV_FLAG); \
 	status=$$?; \
-	coverage combine; \
-	coverage html --directory=coverage --omit="tests*"; \
 	coverage report; \
 	exit $$status;
 
