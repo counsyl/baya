@@ -2,7 +2,6 @@ PACKAGE_NAME?=baya
 VENV_DIR?=.venv
 VENV_ACTIVATE=$(VENV_DIR)/bin/activate
 WITH_VENV=. $(VENV_ACTIVATE);
-TEST_OUTPUT?=nosetests.xml
 
 ifdef TRAVIS_PYTHON_VERSION
     PYTHON=python$(TRAVIS_PYTHON_VERSION)
@@ -43,7 +42,6 @@ clean:
 	rm -rf *.egg*/
 	rm -rf __pycache__/
 	rm -f MANIFEST
-	rm -f $(TEST_OUTPUT)
 	find $(PACKAGE_NAME) -type f -name '*.pyc' -delete
 
 .PHONY: teardown
@@ -63,7 +61,6 @@ test: venv
 	coverage combine; \
 	coverage html --directory=coverage --omit="tests*"; \
 	coverage report; \
-	xunitmerge nosetests-*.xml $(TEST_OUTPUT); \
 	exit $$status;
 
 # Distribution
