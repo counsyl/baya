@@ -1,4 +1,4 @@
-coverage==3.7.1
+coverage==5.1
 django-nose==1.4.6
 mock==1.0.1
 mockldap==0.2.6  # Required for mock_ldap_helpers
