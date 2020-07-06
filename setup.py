@@ -1,17 +1,5 @@
-import os
-
 from setuptools import find_packages
 from setuptools import setup
-
-
-def load_readme():
-    PROJECT_DIR = os.path.dirname(__file__)
-    readme_file = "README.md"
-    try:
-        return open(os.path.join(PROJECT_DIR, readme_file), 'r').read()
-    except Exception:
-        raise RuntimeError("Cannot find readme file {fname}.".format(
-            fname=readme_file))
 
 
 def load_version():
@@ -31,20 +19,13 @@ def load_version():
             "Cannot find version string in {version_file}.".format(
                 version_file=version_file))
 
-version = load_version()
-long_description = load_readme()
 
-# Build description from README and build metadata from Go pipeline.
-long_description += "\n"
-long_description += "build_revision: {}\n".format(os.getenv('GO_REVISION'))
-long_description += "build_pipeline: {}\n".format(os.getenv('GO_PIPELINE_NAME'))
-long_description += "build_label:    {}\n".format(os.getenv('GO_PIPELINE_LABEL'))
+version = load_version()
 
 setup(
     name='baya',
     version=version,
     description="Nested LDAP Groups authorization.",
-    long_description=long_description,
     author='Steven Buss',
     author_email='steven.buss@gmail.com',
     maintainer='Counsyl Platform Team',
