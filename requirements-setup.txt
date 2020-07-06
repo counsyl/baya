@@ -5,6 +5,5 @@ Django>=1.11
 pluggy==0.3.0
 py==1.4.27
 tox==2.0.1
-tox-pyenv==1.1.0
 virtualenv==16.7.4
 xunitmerge==1.0.4
