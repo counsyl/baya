@@ -47,7 +47,7 @@ setup(
     ],
     install_requires=[
         'django-auth-ldap>=1.2.8',
-        'Django>=1.11,<2.2',
+        'Django>=1.11',
         'six>=1.3',
     ],
     packages=find_packages(exclude=[
