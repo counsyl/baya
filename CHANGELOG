@@ -1,3 +1,4 @@
+2.1.0: Add support for django 4.0, 4.1. Add support for Python 3.10, 3.11.
 2.0.3: remove upper bound on django requirement
 2.0.2: Bump py, flake8 and other dependencies for security.
 2.0.0: Support for django 2.0, 2.1, 2.2. Add support for Python3.7. Drop support for Python 2.7
