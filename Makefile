@@ -6,7 +6,7 @@ WITH_VENV=. $(VENV_ACTIVATE);
 ifdef TRAVIS_PYTHON_VERSION
     PYTHON=python$(TRAVIS_PYTHON_VERSION)
 else
-    PYTHON=python3.6
+    PYTHON=python3.9
 endif
 
 ifdef TOX_ENV
