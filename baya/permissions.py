@@ -1,5 +1,9 @@
 import collections
 import functools
+import sys
+
+if sys.version_info[:2] >= (3, 10):
+    collections.Callable = collections.abc.Callable
 
 import django
 from django.conf import settings
