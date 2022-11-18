@@ -50,7 +50,7 @@ teardown:
 
 .PHONY: lint
 lint: venv
-	$(WITH_VENV) flake8 -v $(PACKAGE_NAME)/
+	$(WITH_VENV) tox -e lint
 
 .PHONY: test
 test: venv
