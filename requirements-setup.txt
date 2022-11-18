@@ -11,6 +11,7 @@ virtualenv==20.16.7
 xunitmerge==1.0.4
 
 # dependencies
+py==1.11.0 # tox
 filelock>=3.0.0 # tox
 packaging>=14 # tox
 tomli>=2.0.1 # tox
