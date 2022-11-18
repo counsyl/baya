@@ -1,4 +1,9 @@
-from django.conf.urls import include, url
+import django
+if django.VERSION[:2] < (4, 0):
+    from django.conf.urls import url, include
+else:
+    from django.urls import include, re_path
+    url = re_path
 
 from baya.permissions import requires
 

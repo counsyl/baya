@@ -6,8 +6,15 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
-from django.middleware.csrf import _salt_cipher_secret, _get_new_csrf_string
+from django.middleware.csrf import _get_new_csrf_string
 from django.test import TestCase
+
+if django.VERSION[:2] <= (2, 2):
+    from django.middleware.csrf import _salt_cipher_secret
+else:
+    from django.middleware.csrf import _mask_cipher_secret
+    _salt_cipher_secret = _mask_cipher_secret
+
 
 from . import directory
 from ..mock_ldap_helpers import mock_ldap_setup

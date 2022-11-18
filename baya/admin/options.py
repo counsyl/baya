@@ -23,7 +23,7 @@ class BayaInlineMixin(object):
     UPDATE = ALLOW_ALL
     DELETE = ALLOW_ALL
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, request, obj=None):
         return has_permission(requires(self.CREATE), request.user, 'post')
 
     def has_change_permission(self, request, obj=None):

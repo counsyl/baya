@@ -4,8 +4,11 @@ from collections import OrderedDict
 from operator import or_
 
 import django
-from django.conf.urls import url
-from django.conf.urls import include
+if django.VERSION[:2] < (4, 0):
+    from django.conf.urls import url, include
+else:
+    from django.urls import include, re_path
+    url = re_path
 from django.contrib.admin.sites import AdminSite
 
 from baya.permissions import requires

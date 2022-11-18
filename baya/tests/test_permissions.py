@@ -4,8 +4,12 @@ from mock import sentinel
 from types import FunctionType
 
 import six
+import django
 from django.conf import settings
-from django.conf.urls import include
+if django.VERSION[:2] < (4, 0):
+    from django.conf.urls import include
+else:
+    from django.urls import include
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.test.utils import override_settings
