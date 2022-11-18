@@ -18,7 +18,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        sudo apt-get update -y && apt-get install -y libldap2-dev libssl-dev libsasl2-dev
+        sudo apt-get update -y && sudo apt-get install -y libldap2-dev libssl-dev libsasl2-dev
         python -m pip install --upgrade pip
         python -m venv venv
         source venv/bin/activate
@@ -36,7 +36,7 @@ jobs:
          python-version: '3.x'
       - name: Install dependencies
         run: |
-          sudo apt-get update -y && apt-get install -y libldap2-dev libssl-dev libsasl2-dev
+          sudo apt-get update -y && sudo apt-get install -y libldap2-dev libssl-dev libsasl2-dev
           python -m pip install --upgrade pip
           python -m venv venv
           source venv/bin/activate
