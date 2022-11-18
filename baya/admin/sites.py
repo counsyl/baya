@@ -84,7 +84,7 @@ class NestedGroupsAdminSite(AdminSite):
                 # django >= 2.0 pattern must be compiled into regex
                 if sys.version_info[0] == 3 and sys.version_info[1] <= 6:
                     # python 3.0 through 3.6 must escape slashes in the regex
-                    escaped_pattern = pattern.replace('/', '\/')
+                    escaped_pattern = pattern.replace('/', '\/')  # noqa: W605
                 else:
                     escaped_pattern = pattern
                 compiled_pattern = re.compile(escaped_pattern)

@@ -38,7 +38,7 @@ class DjangoRequestGroupFormatter(DjangoRequestCallable):
         url(r'my_view/(?P<param>\w+)/',
             requires(DynamicRolesNode(DjangoRequestGroupFormatter(
                      "%s_admin", 'thing')))(path.to.my_view),
-        )
+        )  # noqa
 
     Then the named reverse kwarg named `param` will always take precedence over
     a url query parameter named `param`. For example:
