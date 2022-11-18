@@ -301,14 +301,6 @@ class TestRequires(LDAPGroupAuthTestBase):
         self.assertTrue(hasattr(decorated1, '_gate'))
         self.assertNotEqual(decorated1._gate, decorated2._gate)
 
-    def test_functools_bare_partial(self):
-        """Test that a bare functools.partial cannot be decorated."""
-        def pseudoview(request, foo):
-            pass
-
-        self.assertRaises(ValueError, requires(A),
-                          functools.partial(pseudoview, foo=1))
-
     def test_functools_partial(self):
         """Test that a functools.partial is able to be decorated."""
         def pseudoview(request, foo):
