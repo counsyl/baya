@@ -1,5 +1,9 @@
 import collections
 import functools
+import sys
+
+if sys.version_info[:2] >= (3, 10):
+    collections.Callable = collections.abc.Callable
 
 import django
 from django.conf import settings
@@ -180,8 +184,11 @@ class Gate(object):
         self.get_requires &= other.get_requires
         self.post_requires &= other.post_requires
         # Prefer other's login_url, if set
-        if (other.login_url is not None and
-                six.text_type(other.login_url) != six.text_type(settings.BAYA_LOGIN_URL)):  # nopep8
+        login_text_type = six.text_type(settings.BAYA_LOGIN_URL)
+        if (
+            other.login_url is not None and
+            six.text_type(other.login_url) != login_text_type
+        ):
             self.login_url = other.login_url
         return self
 

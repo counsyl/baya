@@ -6,7 +6,7 @@ WITH_VENV=. $(VENV_ACTIVATE);
 ifdef TRAVIS_PYTHON_VERSION
     PYTHON=python$(TRAVIS_PYTHON_VERSION)
 else
-    PYTHON=python3.6
+    PYTHON=python3.9
 endif
 
 ifdef TOX_ENV
@@ -50,7 +50,7 @@ teardown:
 
 .PHONY: lint
 lint: venv
-	$(WITH_VENV) flake8 -v $(PACKAGE_NAME)/
+	$(WITH_VENV) tox -e lint
 
 .PHONY: test
 test: venv

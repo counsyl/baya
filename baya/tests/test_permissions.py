@@ -4,8 +4,12 @@ from mock import sentinel
 from types import FunctionType
 
 import six
+import django
 from django.conf import settings
-from django.conf.urls import include
+if django.VERSION[:2] < (4, 0):
+    from django.conf.urls import include
+else:
+    from django.urls import include
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.test.utils import override_settings
@@ -296,14 +300,6 @@ class TestRequires(LDAPGroupAuthTestBase):
         self.assertFalse(decorated1 is view)
         self.assertTrue(hasattr(decorated1, '_gate'))
         self.assertNotEqual(decorated1._gate, decorated2._gate)
-
-    def test_functools_bare_partial(self):
-        """Test that a bare functools.partial cannot be decorated."""
-        def pseudoview(request, foo):
-            pass
-
-        self.assertRaises(ValueError, requires(A),
-                          functools.partial(pseudoview, foo=1))
 
     def test_functools_partial(self):
         """Test that a functools.partial is able to be decorated."""

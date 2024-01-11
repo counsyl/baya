@@ -1,5 +1,5 @@
+import django
 from django.urls import reverse_lazy
-from django.conf.urls import include, url
 from django.contrib.auth.views import LoginView
 from django.views.generic import ListView
 from django.contrib import admin
@@ -18,6 +18,12 @@ from .views import query_param_view
 from .admin import site
 from . import nested_urls1
 from .submod2 import urls as sub2_urls
+
+if django.VERSION[:2] < (4, 0):
+    from django.conf.urls import url, include
+else:
+    from django.urls import include, re_path
+    url = re_path
 
 A = g('a')
 AA = g('aa')

@@ -239,7 +239,7 @@ class TestInlines(LDAPGroupAuthTestBase):
 
     def test_perms_correct(self):
         def _check(inline, request, add, change, delete):
-            self.assertEqual(inline.opts.has_add_permission(request), add)
+            self.assertEqual(inline.opts.has_add_permission(request, obj=None), add)
             self.assertEqual(
                 inline.opts.has_change_permission(request), change)
             self.assertEqual(
