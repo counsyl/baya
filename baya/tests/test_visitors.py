@@ -1,4 +1,4 @@
-from mock import MagicMock
+from unittest.mock import MagicMock
 from unittest import TestCase
 
 from ..dynamic_roles import DjangoRequestGroupFormatter

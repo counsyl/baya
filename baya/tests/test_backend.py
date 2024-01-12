@@ -1,7 +1,7 @@
 import ldap
 from django.test import TestCase
-from mock import Mock
-from mock import sentinel
+from unittest.mock import Mock
+from unittest.mock import sentinel
 
 from baya.backend import NestedLDAPGroupsBackend
 from baya.backend import ReconnectingLDAP

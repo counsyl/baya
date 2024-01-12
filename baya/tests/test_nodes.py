@@ -1,4 +1,4 @@
-from mock import Mock
+from unittest.mock import Mock
 
 from operator import and_
 from operator import or_

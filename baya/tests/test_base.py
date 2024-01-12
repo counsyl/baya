@@ -1,4 +1,4 @@
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 import django
 from django_auth_ldap import backend

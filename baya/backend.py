@@ -1,5 +1,4 @@
 from functools import partial
-import six
 
 from django.conf import settings
 from django.contrib.auth import get_permission_codename
@@ -34,7 +33,7 @@ class NestedLDAPGroupsBackend(LDAPBackend):
             user, obj)
         from baya.admin.sites import _admin_registry
         for admin_site in _admin_registry:
-            for model, opts in six.iteritems(admin_site._registry):
+            for model, opts in admin_site._registry.items():
                 app = model._meta.app_label
                 perm_name = partial(get_permission_codename, opts=model._meta)
                 if (hasattr(opts, 'user_has_add_permission') and

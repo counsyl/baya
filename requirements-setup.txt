@@ -1,6 +1,6 @@
 # Requirements needed for the setup make target and the test target
 # outside of the individual tox environments.
-
+setuptools<58.0
 pluggy==1.0.0
 py==1.11.0
 tox==3.27.1

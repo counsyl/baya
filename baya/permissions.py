@@ -1,9 +1,10 @@
-import collections
 import functools
-import sys
 
-if sys.version_info[:2] >= (3, 10):
-    collections.Callable = collections.abc.Callable
+try:
+    from collections.abc import Callable
+except:
+    from collections import Callable
+
 
 import django
 from django.conf import settings
@@ -16,7 +17,6 @@ if django.VERSION[0] == 1:
 elif django.VERSION[0] >= 2:
     from django.urls.resolvers import URLPattern
     from django.urls.resolvers import URLResolver
-import six
 
 from .membership import BaseNode
 from .membership import ValueNode
@@ -87,7 +87,7 @@ class Gate(object):
 
         if groups is None:
             groups = []
-        elif isinstance(groups, six.string_types):
+        elif isinstance(groups, str):
             groups = [group.strip() for group in groups.split(',')]
 
         return self.DEFAULT_PERMISSION_NODE(*groups)
@@ -184,10 +184,10 @@ class Gate(object):
         self.get_requires &= other.get_requires
         self.post_requires &= other.post_requires
         # Prefer other's login_url, if set
-        login_text_type = six.text_type(settings.BAYA_LOGIN_URL)
+        login_text_type = str(settings.BAYA_LOGIN_URL)
         if (
             other.login_url is not None and
-            six.text_type(other.login_url) != login_text_type
+            str(other.login_url) != login_text_type
         ):
             self.login_url = other.login_url
         return self
@@ -362,7 +362,7 @@ class requires(object):
                 'Cannot decorate a bare functools.partial view.  '
                 'You must invoke functools.update_wrapper(partial_view, '
                 'full_view) first.')
-        if not isinstance(fn, type) and isinstance(fn, collections.Callable):
+        if not isinstance(fn, type) and isinstance(fn, Callable):
             return self.decorate_method(fn, *args, **kwargs)
         elif isinstance(fn, tuple):
             # Must be an include('my_app.urls') we're decorating
@@ -374,7 +374,7 @@ class requires(object):
                 raise TypeError("Cannot decorate Inlines. See "
                                 "baya.admin.options.BayaInline instead.")
             return self.decorate_admin(fn, *args, **kwargs)
-        elif isinstance(fn, six.string_types):
+        elif isinstance(fn, str):
             raise TypeError("Cannot decorate string-path to view: %s." % fn)
         else:
             # You'll probably only get here if you're trying to decorate

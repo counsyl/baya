@@ -23,7 +23,8 @@ default:
 venv: $(VENV_ACTIVATE)
 
 $(VENV_ACTIVATE): requirements*.txt setup.py
-	test -f $@ || virtualenv --python=$(PYTHON) $(VENV_DIR)
+	pip install virtualenv==20.8.1
+	test -f $@ || python3 -m venv $(VENV_DIR) || virtualenv --python=$(PYTHON) $(VENV_DIR)
 	$(WITH_VENV) pip install --no-deps -r requirements-setup.txt
 	$(WITH_VENV) pip install -e .
 	$(WITH_VENV) pip install --no-deps -r requirements-dev.txt
