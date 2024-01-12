@@ -1,9 +1,10 @@
-import collections
 import functools
-import sys
 
-if sys.version_info[:2] >= (3, 10):
-    collections.Callable = collections.abc.Callable
+try:
+    from collections.abc import Callable
+except:
+    from collections import Callable
+
 
 import django
 from django.conf import settings
@@ -361,7 +362,7 @@ class requires(object):
                 'Cannot decorate a bare functools.partial view.  '
                 'You must invoke functools.update_wrapper(partial_view, '
                 'full_view) first.')
-        if not isinstance(fn, type) and isinstance(fn, collections.Callable):
+        if not isinstance(fn, type) and isinstance(fn, Callable):
             return self.decorate_method(fn, *args, **kwargs)
         elif isinstance(fn, tuple):
             # Must be an include('my_app.urls') we're decorating
