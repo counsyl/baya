@@ -149,8 +149,8 @@ def mock_ldap_setup(
     `.start()` on the returned value.
     """
     from django.conf import settings
-    import mock
     import mockldap
+    from unittest import mock
 
     class MockLDAP(mockldap.MockLdap):
         def start(self, *args, **kwargs):

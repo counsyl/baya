@@ -1,9 +1,8 @@
 import functools
-from mock import patch
-from mock import sentinel
+from unittest.mock import patch
+from unittest.mock import sentinel
 from types import FunctionType
 
-import six
 import django
 from django.conf import settings
 if django.VERSION[:2] < (4, 0):
@@ -159,8 +158,8 @@ class TestGate(LDAPGroupAuthTestBase):
         custom_login = "/testlogin/"
         g3 = Gate(login_url=custom_login)
         self.assertEqual(g3.login_url, custom_login)
-        self.assertEqual(six.text_type((g3 + g2).login_url),
-                         six.text_type(custom_login))
+        self.assertEqual(str((g3 + g2).login_url),
+                         str(custom_login))
         self.assertEqual((g2 + g3).login_url, custom_login)
         with override_settings(BAYA_LOGIN_URL="/testlogin/"):
             g4 = Gate()
